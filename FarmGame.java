@@ -51,6 +51,7 @@ public class FarmGame {
         // Loop that runs the game given that the conditions for the game being lost or won are not met.
 
         while (money > -10000 && money < 1000000) {
+            // Sets all booleans back to false in order to reset the conditions for the season
             cabbage = false;
             carrots = false;
             corn = false;
@@ -156,6 +157,8 @@ public class FarmGame {
                     tractorString = "none";
                 }
 
+                // Asks if the user would like to buy pesticide before the season.
+                // This negates the chance of pest infestation during the season, which will be more expensive to fix.
                 System.out.printf("Would you like to purchase pesticide for this season for 750? (y or n)%n");
                 answer = input.next();
                 if(answer.equalsIgnoreCase("y")){
@@ -243,9 +246,11 @@ public class FarmGame {
             // Runs this section of code (the season) if a type of seed is owned
             if (cabbage | carrots | corn | potatoes | wheat) {
                 System.out.printf("The season is beginning:%n");
+                // Resets the season to Spring after all 4 have happened
                 if (season > 4) {
                     season = 0;
                 }
+                // Switch that governs which season it is
                 switch (season) {
                     case 3:
                         System.out.printf("The season is Fall.%n");
@@ -291,6 +296,7 @@ public class FarmGame {
 
                 // Initialization of constructor that determines the worth of a field given conditions
                 SeasonConditionsConstructor season1 = new SeasonConditionsConstructor(seasonString, tractorString, cropsString);
+                // If statements by season given all conditions that decide field worth via constructor above
                 if (season1.getSeasonName() == "spring") {
                     if (season1.getCrop() != "cabbage" && season1.getCrop() != "carrots") {
                         fieldWorth = fieldWorth * 1.5;
@@ -549,6 +555,7 @@ public class FarmGame {
                                 break;
                             }
                     }
+                // Communicates that the field has grown
                     fieldStatus = 1;
                     if (fieldAlreadyGrown == 0) {
                         System.out.printf("Your field has grown!%n");
@@ -562,8 +569,11 @@ public class FarmGame {
                     }
                     fieldStatus = 0;
                 }
+            // Adds 1 to the season so that the next season will happen
                 season++;
+            // Adds the field worth based on the algorithms above to the user's total money at the end of the season
                 money += fieldWorth;
+                // gives the user a tractor as they must wait a whole season after buying one for their tractor to arrive
                 if (waitingOnPoorTractor) {
                     waitingOnPoorTractor = false;
                     poorTractor = true;
