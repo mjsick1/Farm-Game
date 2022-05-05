@@ -85,72 +85,83 @@ public class FarmGame {
                         seedCost);
 
                 // Asks the user if they would like to buy a tractor
+                while (answer != "y" && answer != "n") {
+                    System.out.printf("%nWould you like to purchase a tractor? (y or n)%n");
 
-                System.out.printf("%nWould you like to purchase a tractor? (y or n)%n");
-
-                // Allows the user to answer
-                answer = input.next();
-                if (answer.equalsIgnoreCase("y")) {
-                    System.out.printf("What tractor would you like to purchase? (Poor, Decent, Great)%n");
+                    // Allows the user to answer
                     answer = input.next();
+                    if (answer.equalsIgnoreCase("y")) {
+                        while (answer != "poor" && answer != "decent" && answer != "great") {
+                            System.out.printf("What tractor would you like to purchase? (poor, decent, great)%n");
+                            answer = input.next();
 
-                    // Decides what conditions change when a poor tractor is bought
+                            // Decides what conditions change when a poor tractor is bought
 
-                    if (answer.equalsIgnoreCase("Poor")) {
-                        money = money - poorTractorCost;
-                        waitingOnPoorTractor = true;
-                        waitingOnDecentTractor = false;
-                        waitingOnGreatTractor = false;
-                        System.out.printf("Your new poor tractor will arrive next season!%n");
-                        System.out.printf("You now have $%d", money);
-                        System.out.printf("%nPress Enter to continue...%n");
-                        try {
-                            System.in.read();
-                        } catch (Exception e) {
+                            if (answer.equalsIgnoreCase("Poor")) {
+                                money = money - poorTractorCost;
+                                waitingOnPoorTractor = true;
+                                waitingOnDecentTractor = false;
+                                waitingOnGreatTractor = false;
+                                System.out.printf("Your new poor tractor will arrive next season!%n");
+                                System.out.printf("You now have $%d", money);
+                                System.out.printf("%nPress Enter to continue...%n");
+                                try {
+                                    System.in.read();
+                                } catch (Exception e) {
+                                }
+                                break;
+
+                                // Decides what conditions change when a decent tractor is bought
+
+                            } else if (answer.equalsIgnoreCase("Decent")) {
+                                money = money - decentTractorCost;
+                                waitingOnDecentTractor = true;
+                                waitingOnPoorTractor = false;
+                                waitingOnGreatTractor = false;
+                                System.out.printf("Your new decent tractor will arrive next season!%n");
+                                System.out.printf("You now have $%d", money);
+                                System.out.printf("%nPress Enter to continue...%n");
+                                try {
+                                    System.in.read();
+                                } catch (Exception e) {
+                                }
+                                break;
+
+                                // Decides what conditions change when a great tractor is bought
+
+                            } else if (answer.equalsIgnoreCase("Great")) {
+                                money = money - greatTractorCost;
+                                waitingOnGreatTractor = true;
+                                waitingOnDecentTractor = false;
+                                waitingOnPoorTractor = false;
+                                System.out.printf("Your new great tractor will arrive next season!%n");
+                                System.out.printf("You now have $%d", money);
+                                System.out.printf("%nPress Enter to continue...%n");
+                                try {
+                                    System.in.read();
+                                } catch (Exception e) {
+                                }
+                                break;
+                            }
+                            if (answer != "poor" && answer != "decent" && answer != "great") {
+                                System.out.printf("Invalid input. Input must be 'poor', 'decent', or 'great'%n");
+                            }
                         }
-
-                        // Decides what conditions change when a decent tractor is bought
-
-                    } else if (answer.equalsIgnoreCase("Decent")) {
-                        money = money - decentTractorCost;
-                        waitingOnDecentTractor = true;
-                        waitingOnPoorTractor = false;
-                        waitingOnGreatTractor = false;
-                        System.out.printf("Your new decent tractor will arrive next season!%n");
-                        System.out.printf("You now have $%d", money);
-                        System.out.printf("%nPress Enter to continue...%n");
-                        try {
-                            System.in.read();
-                        } catch (Exception e) {
-                        }
-
-                        // Decides what conditions change when a great tractor is bought
-
-                    } else if (answer.equalsIgnoreCase("Great")) {
-                        money = money - greatTractorCost;
-                        waitingOnGreatTractor = true;
-                        waitingOnDecentTractor = false;
-                        waitingOnPoorTractor = false;
-                        System.out.printf("Your new great tractor will arrive next season!%n");
-                        System.out.printf("You now have $%d", money);
-                        System.out.printf("%nPress Enter to continue...%n");
-                        try {
-                            System.in.read();
-                        } catch (Exception e) {
-                        }
-
-                        // throws an exception if an invalid input is entered
-
+                        break;
+                    }
+                    // Continues the code if the user decides not to buy a tractor
+                    else if (answer.equalsIgnoreCase("n")) {
+                        // Stops while loop if n is entered
+                        break;
+                    }
+                    if (answer != "y" && answer != "n" && answer != "poor" && answer != "decent" && answer != "great") {
+                        System.out.printf("Invalid input, must be 'y' or 'n'%n");
                     } else {
-                        throw new IllegalArgumentException("Input must be one of the tractor types listed above.");
+                        break;
                     }
                 }
-                // Continues the code if the user decides not to buy a tractor
-                else if (answer.equalsIgnoreCase("n")) {
-                    // Throws an exception if an invalid input is entered.
-                } else {
-                    throw new IllegalArgumentException("Input must be 'y' or 'n'.");
-                }
+                // Resets the answer variable
+                answer = null;
 
                 // If no tractors are bought, sets the string for the constructor for SeasonConditions to represent no tractors bought.
                 if (!greatTractor && !decentTractor && !poorTractor) {
@@ -159,25 +170,33 @@ public class FarmGame {
 
                 // Asks if the user would like to buy pesticide before the season.
                 // This negates the chance of pest infestation during the season, which will be more expensive to fix.
-                System.out.printf("Would you like to purchase pesticide for this season for 750? (y or n)%n");
-                answer = input.next();
-                if(answer.equalsIgnoreCase("y")){
-                    pesticide = true;
-                    money = money - pesticideCost;
-                    System.out.printf("You have purchased pesticide.%nYou now have $%d%n", money);
-                    System.out.printf("%nPress Enter to continue...%n");
-                    try {
-                        System.in.read();
-                    } catch (Exception e) {
+                while (answer != "y" && answer != "n") {
+                    System.out.printf("Would you like to purchase pesticide for this season for 750? (y or n)%n");
+                    answer = input.next();
+                    if (answer.equalsIgnoreCase("y")) {
+                        pesticide = true;
+                        money = money - pesticideCost;
+                        System.out.printf("You have purchased pesticide.%nYou now have $%d%n", money);
+                        System.out.printf("%nPress Enter to continue...%n");
+                        try {
+                            System.in.read();
+                        } catch (Exception e) {
+                        }
+                        break;
+                    } else if (answer.equalsIgnoreCase("n")) {
+                        // breaks loop if input is 'n'
+                        break;
                     }
-                } else if (answer.equalsIgnoreCase("n")){
-                } else {
-                    throw new IllegalArgumentException("Input must be 'y' or 'n'.");
+                    if (answer != "y" && answer != "n") {
+                        System.out.printf("Invalid input. Input must be 'y' or 'n'%n");
+                    }
                 }
+                answer = null;
 
                 // Asks the user what type of seeds they would like to purchase
-                System.out.printf("What seeds would you like to purchase to plant for next season?" +
-                        " (cabbage, carrots, corn, potatoes, or wheat)%n");
+                while (answer != "cabbage" && answer != "carrots" && answer != "corn" && answer != "potatoes" && answer != "wheat"){
+                    System.out.printf("What seeds would you like to purchase to plant for next season?" +
+                            " (cabbage, carrots, corn, potatoes, or wheat)%n");
 
                 // Allows the user to respond and adjusts conditions according to answer.
                 answer = input.next();
@@ -192,6 +211,7 @@ public class FarmGame {
                         System.in.read();
                     } catch (Exception e) {
                     }
+                    break;
                 } else if (answer.equalsIgnoreCase("carrots")) {
                     money = money - seedCost;
                     System.out.printf("You now have $%d%n", money);
@@ -203,6 +223,7 @@ public class FarmGame {
                         System.in.read();
                     } catch (Exception e) {
                     }
+                    break;
                 } else if (answer.equalsIgnoreCase("corn")) {
                     money = money - seedCost;
                     System.out.printf("You now have $%d%n", money);
@@ -214,6 +235,7 @@ public class FarmGame {
                         System.in.read();
                     } catch (Exception e) {
                     }
+                    break;
                 } else if (answer.equalsIgnoreCase("potatoes")) {
                     money = money - seedCost;
                     System.out.printf("You now have $%d%n", money);
@@ -225,6 +247,7 @@ public class FarmGame {
                         System.in.read();
                     } catch (Exception e) {
                     }
+                    break;
                 } else if (answer.equalsIgnoreCase("wheat")) {
                     money = money - seedCost;
                     System.out.printf("You now have $%d%n", money);
@@ -236,11 +259,13 @@ public class FarmGame {
                         System.in.read();
                     } catch (Exception e) {
                     }
-                    // Throws an exception if an invalid input is given
-                } else {
-                    throw new IllegalArgumentException("Input must be one of the crops listed above.");
+                    break;
+                }
+                if(answer != "cabbage" && answer != "carrots" && answer != "corn" && answer != "potatoes" && answer != "wheat"){
+                    System.out.printf("Invalid input. Input must be 'cabbage', 'carrots', 'corn', 'potatoes', or 'wheat'%n");
                 }
             }
+        }
 
             // SEASON \\
             // Runs this section of code (the season) if a type of seed is owned
@@ -316,6 +341,9 @@ public class FarmGame {
                     if (season1.getTractor() == "great") {
                         fieldWorth = fieldWorth * 10;
                     }
+                    if(pesticide){
+                        fieldWorth = fieldWorth * .8;
+                    }
                 }
                 if (season1.getSeasonName() == "summer") {
                     fieldWorth = 8500;
@@ -336,6 +364,9 @@ public class FarmGame {
                     }
                     if (season1.getTractor() == "great") {
                         fieldWorth = fieldWorth * 10;
+                    }
+                    if(pesticide){
+                        fieldWorth = fieldWorth * .8;
                     }
                 }
                 if (season1.getSeasonName() == "fall") {
@@ -358,6 +389,9 @@ public class FarmGame {
                     if (season1.getTractor() == "great") {
                         fieldWorth = fieldWorth * 10;
                     }
+                    if(pesticide){
+                        fieldWorth = fieldWorth * .8;
+                    }
                 }
                 if (season1.getSeasonName() == "winter") {
                     fieldWorth = 2500;
@@ -378,6 +412,9 @@ public class FarmGame {
                     }
                     if (season1.getTractor() == "great") {
                         fieldWorth = fieldWorth * 10;
+                    }
+                    if(pesticide){
+                        fieldWorth = fieldWorth * .8;
                     }
                 }
 
