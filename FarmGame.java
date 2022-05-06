@@ -96,41 +96,49 @@ public class FarmGame {
                             answer = input.next();
 
                             // Decides what conditions change when a poor tractor is bought
-
                             if (answer.equalsIgnoreCase("Poor")) {
-                                money = money - poorTractorCost;
-                                waitingOnPoorTractor = true;
-                                waitingOnDecentTractor = false;
-                                waitingOnGreatTractor = false;
-                                System.out.printf("Your new poor tractor will arrive next season!%n");
-                                System.out.printf("You now have $%d", money);
-                                System.out.printf("%nPress Enter to continue...%n");
-                                try {
-                                    System.in.read();
-                                } catch (Exception e) {
+                                if (!poorTractor && !decentTractor && !greatTractor) {
+                                    money = money - poorTractorCost;
+                                    waitingOnPoorTractor = true;
+                                    waitingOnDecentTractor = false;
+                                    waitingOnGreatTractor = false;
+                                    System.out.printf("Your new poor tractor will arrive next season!%n");
+                                    System.out.printf("You now have $%d", money);
+                                    System.out.printf("%nPress Enter to continue...%n");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                    break;
+
+                                    // Decides what conditions change when a decent tractor is bought
+                                } else {
+                                    System.out.printf("You already own a tractor of at least this caliber!%n");
+                                    break;
                                 }
-                                break;
-
-                                // Decides what conditions change when a decent tractor is bought
-
                             } else if (answer.equalsIgnoreCase("Decent")) {
-                                money = money - decentTractorCost;
-                                waitingOnDecentTractor = true;
-                                waitingOnPoorTractor = false;
-                                waitingOnGreatTractor = false;
-                                System.out.printf("Your new decent tractor will arrive next season!%n");
-                                System.out.printf("You now have $%d", money);
-                                System.out.printf("%nPress Enter to continue...%n");
-                                try {
-                                    System.in.read();
-                                } catch (Exception e) {
+                                if (!decentTractor && !greatTractor) {
+                                    money = money - decentTractorCost;
+                                    waitingOnDecentTractor = true;
+                                    waitingOnPoorTractor = false;
+                                    waitingOnGreatTractor = false;
+                                    System.out.printf("Your new decent tractor will arrive next season!%n");
+                                    System.out.printf("You now have $%d", money);
+                                    System.out.printf("%nPress Enter to continue...%n");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                    break;
+
+                                    // Decides what conditions change when a great tractor is bought
+                                } else {
+                                    System.out.printf("You already own a tractor of at least this caliber!%n");
+                                    break;
                                 }
-                                break;
-
-                                // Decides what conditions change when a great tractor is bought
-
                             } else if (answer.equalsIgnoreCase("Great")) {
-                                money = money - greatTractorCost;
+                                if (!greatTractor){
+                                    money = money - greatTractorCost;
                                 waitingOnGreatTractor = true;
                                 waitingOnDecentTractor = false;
                                 waitingOnPoorTractor = false;
@@ -142,6 +150,10 @@ public class FarmGame {
                                 } catch (Exception e) {
                                 }
                                 break;
+                            } else {
+                                    System.out.printf("You already own a great tractor!%n");
+                                    break;
+                                }
                             }
                             if (answer != "poor" && answer != "decent" && answer != "great") {
                                 System.out.printf("Invalid input. Input must be 'poor', 'decent', or 'great'%n");
@@ -272,7 +284,7 @@ public class FarmGame {
             if (cabbage | carrots | corn | potatoes | wheat) {
                 System.out.printf("The season is beginning:%n");
                 // Resets the season to Spring after all 4 have happened
-                if (season > 4) {
+                if (season == 4) {
                     season = 0;
                 }
                 // Switch that governs which season it is
@@ -597,19 +609,23 @@ public class FarmGame {
                     if (fieldAlreadyGrown == 0) {
                         System.out.printf("Your field has grown!%n");
                         System.out.printf("Press Enter to continue...%n");
-                        fieldAlreadyGrown = 0;
                         fieldStatus = 0;
                         try {
                             System.in.read();
                         } catch (Exception e) {
                         }
                     }
+                    fieldAlreadyGrown = 0;
                     fieldStatus = 0;
                 }
             // Adds 1 to the season so that the next season will happen
                 season++;
             // Adds the field worth based on the algorithms above to the user's total money at the end of the season
                 money += fieldWorth;
+                fireHappened = false;
+                pesticideHappened = false;
+                greatCropsHappened = false;
+                disasterHappened = false;
                 // gives the user a tractor as they must wait a whole season after buying one for their tractor to arrive
                 if (waitingOnPoorTractor) {
                     waitingOnPoorTractor = false;
