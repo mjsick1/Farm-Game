@@ -54,13 +54,13 @@ public class TextBasedFarmGame {
     static String cropsString;
 
     //Declare constants for tractor durability
-    static final int TRACTOR_GOOD_DURABILITY_MAX = 60;
+    static final int TRACTOR_GOOD_DURABILITY_MAX = 50;
     static final int TRACTOR_GOOD_DURABILITY_MIN = 40;
-    static final int TRACTOR_MEDIUM_DURABILITY_MAX = 50;
+    static final int TRACTOR_MEDIUM_DURABILITY_MAX = 40;
     static final int TRACTOR_MEDIUM_DURABILITY_MIN = 30;
-    static final int TRACTOR_POOR_DURABILITY_MAX = 40;
+    static final int TRACTOR_POOR_DURABILITY_MAX = 30;
     static final int TRACTOR_POOR_DURABILITY_MIN = 20;
-    static final int TRACTOR_USED_DURABILITY_MAX = 50;
+    static final int TRACTOR_USED_DURABILITY_MAX = 40;
     static final int TRACTOR_USED_DURABILITY_MIN = 5;
 
     //Declare constants for tractor price
